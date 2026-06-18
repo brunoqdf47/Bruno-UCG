@@ -210,6 +210,26 @@
   .step h3{ font-size:1.08rem; margin-bottom:10px; }
   .step p{ color:var(--muted); font-size:0.92rem; line-height:1.55; margin:0; }
 
+  /* ---------- ANGLES ---------- */
+  .angles{ margin-top:44px; }
+  .angles-label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--muted);
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:16px; display:block;
+  }
+  .angle-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:880px){ .angle-row{ grid-template-columns:1fr; } }
+  .angle{
+    background:var(--surface); border:1px solid var(--paper-line); border-radius:10px;
+    padding:18px 18px; display:flex; flex-direction:column; gap:6px;
+  }
+  .angle .letter{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--accent-ink);
+    background:#FFE9DD; width:26px; height:26px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; margin-bottom:6px;
+  }
+  .angle strong{ font-size:0.95rem; }
+  .angle span.desc{ font-size:0.85rem; color:var(--muted); }
+
   /* ---------- GALLERY ---------- */
   .gallery-grid{
     display:grid; grid-template-columns:repeat(4, 1fr); gap:22px;
@@ -285,7 +305,7 @@
       <a href="#amostras">Amostras</a>
       <a href="#pacotes">Pacotes</a>
     </nav>
-    <a class="nav-cta" href="#contato">Falar agora</a>
+    <a class="nav-cta" href="#contato">Testar meu anúncio</a>
   </div>
 </header>
 
@@ -293,10 +313,10 @@
   <div class="hero-grid">
     <div>
       <span class="eyebrow">Pra quem já investe em anúncio</span>
-      <h1>Eu produzo <em>3 vídeos</em> de anúncio pro seu produto e te digo qual deles converte mais — antes de você gastar em mídia.</h1>
-      <p class="lead">Você manda o produto, eu devolvo três variações de criativo UGC feitas com IA, testando ângulos diferentes. Sem contratar criador, sem semana de produção, sem precisar adivinhar qual anúncio vai funcionar.</p>
+      <h1>Eu produzo <em>3 criativos</em> de anúncio pro seu produto e descubro qual converte mais — antes de você gastar mais em mídia.</h1>
+      <p class="lead">Você economiza tempo de produção e reduz o risco de investir em criativo errado. Três hipóteses diferentes, testadas com dados reais, não com achismo.</p>
       <div class="hero-actions">
-        <a class="btn-primary" href="#contato">Quero um teste pro meu produto</a>
+        <a class="btn-primary" href="#contato">Receber 3 hipóteses pro meu produto</a>
         <a class="btn-ghost" href="#como-funciona">Como funciona</a>
       </div>
     </div>
@@ -343,10 +363,29 @@
         <p>Você roda as três versões, eu acompanho os números, e o próximo ciclo já nasce otimizado a partir do que converteu mais — não do que "parece bonito".</p>
       </div>
     </div>
+
+    <div class="angles">
+      <span class="angles-label">As 3 hipóteses, na prática</span>
+      <div class="angle-row">
+        <div class="angle reveal">
+          <span class="letter mono">A</span>
+          <strong>Economia de tempo</strong>
+          <span class="desc">o produto resolve algo rápido, sem esforço.</span>
+        </div>
+        <div class="angle reveal">
+          <span class="letter mono">B</span>
+          <strong>Prova social</strong>
+          <span class="desc">"eu testei e funcionou", tom de indicação real.</span>
+        </div>
+        <div class="angle reveal">
+          <span class="letter mono">C</span>
+          <strong>Dor do cliente</strong>
+          <span class="desc">parte do problema que o produto resolve.</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
-<section class="section" id="amostras">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">Amostras de teste</span>
@@ -394,7 +433,7 @@
         </div>
         <div class="tc-media">
           <!-- Troque VIDEO_ID_4 pelo ID do vídeo da pistola de massagem, subido como "Não listado" no YouTube -->
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_4" title="Pistola de massagem muscular" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <iframe src="https://www.youtube.com/embed/st6mCzL2gF4" title="Pistola de massagem muscular" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="tc-body">
           <div class="tc-product">Pistola de massagem muscular</div>
@@ -410,7 +449,7 @@
         </div>
         <div class="tc-media">
           <!-- Troque VIDEO_ID_5 pelo ID do vídeo do massageador de LED, subido como "Não listado" no YouTube -->
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_5" title="Massageador facial de LED" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <iframe src="https://www.youtube.com/embed/8tgDz8_laC0" title="Massageador facial de LED" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="tc-body">
           <div class="tc-product">Massageador facial de LED</div>
@@ -432,27 +471,26 @@
     </div>
     <div class="pkg-grid">
       <div class="pkg flagship reveal">
-        <span class="pkg-name mono">CREATIVE SPRINT 7D</span>
-        <h3>Ciclo de teste semanal</h3>
+        <span class="pkg-name mono">TESTE INICIAL</span>
+        <h3>R$ 297</h3>
         <ul>
-          <li>Diagnóstico do produto e do público em até 48h</li>
-          <li>3 hipóteses de criativo produzidas em vídeo UGC com IA</li>
-          <li>Relatório de aprendizado ao final do ciclo</li>
-          <li>Próximo ciclo já parte do que converteu mais</li>
+          <li>Diagnóstico rápido do produto e do público</li>
+          <li>3 criativos em vídeo, um pra cada hipótese (A, B, C)</li>
+          <li>Relatório de aprendizado dizendo qual converteu mais</li>
         </ul>
-        <span class="price-note">Modelo de assinatura mensal — valor combinado conforme volume de teste.</span>
-        <a class="btn-primary" href="#contato">Começar com este pacote</a>
+        <span class="price-note">Pagamento único, sem compromisso de recorrência.</span>
+        <a class="btn-primary" href="#contato">Testar meu próximo anúncio</a>
       </div>
       <div class="pkg reveal">
-        <span class="pkg-name mono">TESTE ÚNICO</span>
-        <h3>Primeiro contato</h3>
+        <span class="pkg-name mono">CREATIVE SPRINT 7D</span>
+        <h3>Ciclo recorrente</h3>
         <ul>
-          <li>1 vídeo de UGC com IA pro seu produto</li>
-          <li>Ideal pra validar antes de entrar num ciclo recorrente</li>
-          <li>Entrega em poucos dias</li>
+          <li>Pra depois do teste inicial, se os números fizerem sentido</li>
+          <li>Novo ciclo de 3 hipóteses toda semana</li>
+          <li>Cada ciclo parte do que converteu mais no anterior</li>
         </ul>
-        <span class="price-note">Sem compromisso de recorrência.</span>
-        <a class="btn-ghost" href="#contato">Pedir um teste único</a>
+        <span class="price-note">Assinatura mensal — valor combinado conforme volume de teste.</span>
+        <a class="btn-ghost" href="#contato">Quero recorrência depois do teste</a>
       </div>
     </div>
   </div>
@@ -481,12 +519,13 @@
   <div class="wrap" style="padding:74px 0 0;">
     <h2>Vamos testar o próximo criativo do seu produto?</h2>
     <p>Me conta qual produto você quer testar primeiro — eu já volto com uma hipótese de criativo.</p>
-    <a class="btn-primary" id="contato" href="https://www.linkedin.com/in/brunoqdf" target="_blank" rel="noopener">Falar com Bruno no LinkedIn</a>
+    <a class="btn-primary" id="contato" href="https://wa.me/5511910262067" target="_blank" rel="noopener">Receber 3 hipóteses pro meu produto</a>
+    <p style="margin-top:14px; font-size:0.85rem;"><a href="mailto:bruno.queiroz.ia@gmail.com" style="color:#AEB8BF; text-decoration:underline;">ou prefere e-mail? escreva aqui</a></p>
   </div>
   <div class="wrap">
     <footer>
       <span>UGC Test Lab — testes de criativo com IA</span>
-      <a href="https://www.linkedin.com/in/brunoqdf" target="_blank" rel="noopener">linkedin.com/in/brunoqdf</a>
+      <a href="https://wa.me/5511910262067" target="_blank" rel="noopener">WhatsApp</a>
     </footer>
   </div>
 </section>
