@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UGC Test Lab — Testes de criativo com IA pra e-commerce</title>
+<meta name="description" content="Testamos variações de criativo UGC gerado por IA pro seu produto, medimos o que converte mais, e entregamos o relatório. Sem contratar criador, sem semana de produção.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#E7ECEE;
+    --paper-line:#C7D2D6;
+    --surface:#FFFFFF;
+    --ink:#15202B;
+    --muted:#5C6B73;
+    --accent:#FF5A1F;
+    --accent-ink:#7A2700;
+    --winner:#1F7A5C;
+    --winner-bg:#E3F1EB;
+    --pending-bg:#EEF0EC;
+    --pending-ink:#5C6B73;
+    --radius:14px;
+    --max:1120px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0 / 100% 42px,
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px) 0 0 / 42px 100%,
+      var(--paper);
+    background-blend-mode:normal;
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* Soften the grid so it reads as texture, not a spreadsheet */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:var(--paper);
+    opacity:0.78;
+    pointer-events:none;
+    z-index:-1;
+  }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+  h1,h2,h3{ font-family:'Space Grotesk', sans-serif; margin:0; line-height:1.1; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  a{ color:inherit; }
+
+  :focus-visible{
+    outline:3px solid var(--accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(231,236,238,0.86);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:1.05rem;
+    letter-spacing:0.01em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; }
+  .brand-block{ display:flex; flex-direction:column; gap:3px; }
+  .brand-sub{ font-size:0.72rem; color:var(--muted); padding-left:16px; }
+  @media (max-width:760px){ .brand-sub{ display:none; } }
+  .nav-links{ display:flex; gap:28px; font-size:0.92rem; }
+  .nav-links a{ text-decoration:none; color:var(--muted); }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-cta{
+    background:var(--ink); color:var(--surface);
+    padding:9px 16px; border-radius:8px; text-decoration:none;
+    font-size:0.88rem; font-weight:500;
+  }
+  @media (max-width:760px){ .nav-links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:76px 0 64px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--accent-ink); background:#FFE9DD;
+    padding:6px 10px; border-radius:6px;
+    margin-bottom:22px;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;
+  }
+  @media (max-width:880px){ .hero-grid{ grid-template-columns:1fr; gap:40px; } }
+
+  .hero h1{ font-size:clamp(2rem, 4vw, 2.9rem); font-weight:700; letter-spacing:-0.01em; }
+  .hero h1 em{ font-style:normal; color:var(--accent); }
+  .hero p.lead{
+    margin-top:20px; font-size:1.08rem; color:var(--muted); max-width:520px; line-height:1.6;
+  }
+  .hero-actions{ margin-top:32px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary{
+    background:var(--ink); color:var(--surface); text-decoration:none;
+    padding:14px 22px; border-radius:9px; font-weight:500; font-size:0.95rem;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary:hover{ background:var(--accent-ink); }
+  .btn-ghost{
+    border:1px solid var(--paper-line); text-decoration:none; color:var(--ink);
+    padding:14px 22px; border-radius:9px; font-size:0.95rem; font-weight:500;
+  }
+  .btn-ghost:hover{ border-color:var(--ink); }
+
+  /* ---------- TEST CARD (signature element) ---------- */
+  .test-card{
+    background:var(--surface);
+    border:1px solid var(--paper-line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 1px 0 rgba(21,32,43,0.04);
+  }
+  .test-card .tc-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 16px; border-bottom:1px solid var(--paper-line);
+  }
+  .tc-id{ font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--muted); }
+  .tc-status{
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.04em;
+    text-transform:uppercase; padding:4px 9px; border-radius:5px;
+  }
+  .tc-status.winner{ background:var(--winner-bg); color:var(--winner); }
+  .tc-status.pending{ background:var(--pending-bg); color:var(--pending-ink); }
+
+  .tc-media{
+    aspect-ratio:9/14;
+    max-height:340px;
+    background:
+      repeating-linear-gradient(135deg, #DDE3E4 0 2px, #E7ECEE 2px 14px);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .tc-media .play{
+    width:52px; height:52px; border-radius:50%;
+    background:rgba(21,32,43,0.78);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tc-media .play svg{ width:18px; height:18px; fill:#fff; }
+  .tc-media .swap-note{
+    position:absolute; bottom:10px; left:10px; right:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.65rem; color:var(--muted);
+    background:rgba(255,255,255,0.85); padding:5px 7px; border-radius:5px;
+  }
+  .tc-media iframe{
+    width:100%; height:100%; border:0; display:block;
+  }
+
+  .tc-body{ padding:14px 16px 16px; }
+  .tc-product{ font-weight:600; font-size:0.95rem; margin-bottom:4px; }
+  .tc-hyp{ font-size:0.85rem; color:var(--muted); line-height:1.45; }
+  .tc-tag{
+    display:inline-block; margin-top:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem;
+    color:var(--muted); border:1px solid var(--paper-line);
+    padding:3px 8px; border-radius:5px;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{ padding:74px 0; border-top:1px solid var(--paper-line); }
+  .section-head{ max-width:620px; margin-bottom:48px; }
+  .section-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:block;
+  }
+  .section h2{ font-size:clamp(1.5rem, 3vw, 2.1rem); }
+  .section-head p{ color:var(--muted); margin-top:14px; line-height:1.6; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  @media (max-width:880px){ .steps{ grid-template-columns:1fr; } }
+  .step{
+    background:var(--surface); border:1px solid var(--paper-line); border-radius:var(--radius);
+    padding:26px 22px;
+  }
+  .step .num{
+    font-family:'IBM Plex Mono', monospace; color:var(--accent); font-weight:500;
+    font-size:0.85rem; margin-bottom:14px; display:block;
+  }
+  .step h3{ font-size:1.08rem; margin-bottom:10px; }
+  .step p{ color:var(--muted); font-size:0.92rem; line-height:1.55; margin:0; }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:22px;
+  }
+  @media (max-width:980px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .gallery-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- PACKAGES ---------- */
+  .pkg-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:24px; align-items:stretch; }
+  @media (max-width:880px){ .pkg-grid{ grid-template-columns:1fr; } }
+  .pkg{
+    background:var(--surface); border:1px solid var(--paper-line); border-radius:var(--radius);
+    padding:32px 28px; display:flex; flex-direction:column;
+  }
+  .pkg.flagship{ border:1.5px solid var(--ink); position:relative; }
+  .pkg.flagship::before{
+    content:"RECOMENDADO"; position:absolute; top:-12px; left:28px;
+    background:var(--ink); color:#fff; font-family:'IBM Plex Mono', monospace;
+    font-size:0.65rem; letter-spacing:0.06em; padding:5px 10px; border-radius:5px;
+  }
+  .pkg-name{ font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--muted); margin-bottom:10px; }
+  .pkg h3{ font-size:1.4rem; margin-bottom:14px; }
+  .pkg ul{ list-style:none; padding:0; margin:0 0 24px; flex-grow:1; }
+  .pkg li{
+    padding:10px 0; border-bottom:1px solid var(--paper-line);
+    font-size:0.92rem; color:var(--ink); display:flex; gap:10px;
+  }
+  .pkg li:last-child{ border-bottom:none; }
+  .pkg li::before{ content:"→"; color:var(--accent); font-weight:600; flex-shrink:0; }
+  .pkg .price-note{ font-size:0.82rem; color:var(--muted); margin-bottom:18px; }
+
+  /* ---------- WHY ---------- */
+  .why-grid{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:48px; align-items:start; }
+  @media (max-width:880px){ .why-grid{ grid-template-columns:1fr; } }
+  .why-list{ list-style:none; padding:0; margin:24px 0 0; display:grid; gap:16px; }
+  .why-list li{
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--muted);
+    border-left:2px solid var(--accent); padding-left:14px;
+  }
+  .why-copy p{ font-size:1.02rem; line-height:1.7; color:var(--ink); }
+  .why-copy p + p{ margin-top:16px; }
+
+  /* ---------- CTA FOOTER ---------- */
+  .cta-footer{
+    background:var(--ink); color:#fff; border-top:none;
+  }
+  .cta-footer h2{ color:#fff; font-size:clamp(1.6rem, 3.4vw, 2.3rem); max-width:560px; }
+  .cta-footer p{ color:#AEB8BF; margin-top:16px; max-width:480px; line-height:1.6; }
+  .cta-footer .btn-primary{ background:var(--accent); margin-top:28px; }
+  .cta-footer .btn-primary:hover{ background:#E04B14; }
+  footer{
+    padding:28px 0 40px; font-size:0.8rem; color:#7C868D;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+  footer a{ color:#AEB8BF; text-decoration:none; }
+  footer a:hover{ color:#fff; }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand-block">
+      <div class="brand"><span class="dot"></span>UGC TEST LAB</div>
+      <span class="brand-sub">teste de criativo em vídeo, pra quem vende produto físico online</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#amostras">Amostras</a>
+      <a href="#pacotes">Pacotes</a>
+    </nav>
+    <a class="nav-cta" href="#contato">Falar agora</a>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">Pra quem já investe em anúncio</span>
+      <h1>Eu produzo <em>3 vídeos</em> de anúncio pro seu produto e te digo qual deles converte mais — antes de você gastar em mídia.</h1>
+      <p class="lead">Você manda o produto, eu devolvo três variações de criativo UGC feitas com IA, testando ângulos diferentes. Sem contratar criador, sem semana de produção, sem precisar adivinhar qual anúncio vai funcionar.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#contato">Quero um teste pro meu produto</a>
+        <a class="btn-ghost" href="#como-funciona">Como funciona</a>
+      </div>
+    </div>
+
+    <div class="test-card reveal">
+      <div class="tc-head">
+        <span class="tc-id mono">TESTE Nº 014</span>
+        <span class="tc-status winner mono">Hipótese vencedora</span>
+      </div>
+      <div class="tc-media">
+        <!-- Suba o vídeo como "Não listado" no YouTube e troque VIDEO_ID_1 pelo ID dele -->
+        <iframe src="https://www.youtube.com/embed/wzOT51VBgxc" title="Organizador de cozinha multifuncional" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="tc-body">
+        <div class="tc-product">Organizador de cozinha multifuncional</div>
+        <div class="tc-hyp">Hipótese testada: prova social casual ("achei isso e resolveu") supera hipótese de economia de espaço.</div>
+        <span class="tc-tag mono">CASA &amp; ORGANIZAÇÃO</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="como-funciona">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Como funciona</span>
+      <h2>Três etapas, um ciclo de uma semana.</h2>
+      <p>Não é produção de vídeo solta. É um processo com início, métrica e decisão no final — o mesmo raciocínio que eu aplico há anos otimizando processo e automação, só que virado pra criativo de anúncio.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="num mono">01</span>
+        <h3>Diagnóstico rápido</h3>
+        <p>Analiso seu produto, seu público e o criativo que você já está rodando hoje — o que provavelmente está funcionando e onde está a perda.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num mono">02</span>
+        <h3>Três hipóteses em vídeo</h3>
+        <p>Produzo três variações de UGC com IA testando ângulos diferentes: economia, praticidade, prova social — ou os que fizerem mais sentido pro seu produto.</p>
+      </div>
+      <div class="step reveal">
+        <span class="num mono">03</span>
+        <h3>Relatório e próximo ciclo</h3>
+        <p>Você roda as três versões, eu acompanho os números, e o próximo ciclo já nasce otimizado a partir do que converteu mais — não do que "parece bonito".</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="amostras">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Amostras de teste</span>
+      <h2>Alguns testes já produzidos.</h2>
+      <p>Cada card abaixo é um teste real: um produto, uma hipótese de criativo, e o vídeo que resultou disso.</p>
+    </div>
+    <div class="gallery-grid">
+
+      <div class="test-card reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">Nº 011</span>
+          <span class="tc-status pending mono">Em teste</span>
+        </div>
+        <div class="tc-media">
+          <!-- Troque VIDEO_ID_2 pelo ID do vídeo do whey, subido como "Não listado" no YouTube -->
+          <iframe src="https://www.youtube.com/embed/xAf437iFLqs" title="Whey Pro Max Titanium" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Whey Pro Max Titanium</div>
+          <div class="tc-hyp">Objeção atacada: sabor e dissolução, não preço.</div>
+          <span class="tc-tag mono">SUPLEMENTO</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">Nº 012</span>
+          <span class="tc-status pending mono">Em teste</span>
+        </div>
+        <div class="tc-media">
+          <!-- Troque VIDEO_ID_3 pelo ID do vídeo do bebedouro, subido como "Não listado" no YouTube -->
+          <iframe src="https://www.youtube.com/embed/9OXGs8uBUwI" title="Fonte de água para gatos" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Fonte de água para gatos</div>
+          <div class="tc-hyp">Hipótese: preocupação real do tutor supera apelo estético do produto.</div>
+          <span class="tc-tag mono">PET</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">Nº 013</span>
+          <span class="tc-status pending mono">Em teste</span>
+        </div>
+        <div class="tc-media">
+          <!-- Troque VIDEO_ID_4 pelo ID do vídeo da pistola de massagem, subido como "Não listado" no YouTube -->
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_4" title="Pistola de massagem muscular" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Pistola de massagem muscular</div>
+          <div class="tc-hyp">Hipótese: dor real pós-treino converte mais que especificação técnica.</div>
+          <span class="tc-tag mono">FITNESS</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">Nº 014</span>
+          <span class="tc-status winner mono">Vencedora</span>
+        </div>
+        <div class="tc-media">
+          <!-- Troque VIDEO_ID_5 pelo ID do vídeo do massageador de LED, subido como "Não listado" no YouTube -->
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_5" title="Massageador facial de LED" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Massageador facial de LED</div>
+          <div class="tc-hyp">Hipótese vencedora: comparação informal com clínica supera explicação técnica do LED.</div>
+          <span class="tc-tag mono">BELEZA</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pacotes">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Pacotes</span>
+      <h2>Você não está comprando vídeo. Está comprando ciclo de teste.</h2>
+      <p>O valor está em testar rápido e parar de adivinhar qual criativo funciona — o vídeo é só o material do teste.</p>
+    </div>
+    <div class="pkg-grid">
+      <div class="pkg flagship reveal">
+        <span class="pkg-name mono">CREATIVE SPRINT 7D</span>
+        <h3>Ciclo de teste semanal</h3>
+        <ul>
+          <li>Diagnóstico do produto e do público em até 48h</li>
+          <li>3 hipóteses de criativo produzidas em vídeo UGC com IA</li>
+          <li>Relatório de aprendizado ao final do ciclo</li>
+          <li>Próximo ciclo já parte do que converteu mais</li>
+        </ul>
+        <span class="price-note">Modelo de assinatura mensal — valor combinado conforme volume de teste.</span>
+        <a class="btn-primary" href="#contato">Começar com este pacote</a>
+      </div>
+      <div class="pkg reveal">
+        <span class="pkg-name mono">TESTE ÚNICO</span>
+        <h3>Primeiro contato</h3>
+        <ul>
+          <li>1 vídeo de UGC com IA pro seu produto</li>
+          <li>Ideal pra validar antes de entrar num ciclo recorrente</li>
+          <li>Entrega em poucos dias</li>
+        </ul>
+        <span class="price-note">Sem compromisso de recorrência.</span>
+        <a class="btn-ghost" href="#contato">Pedir um teste único</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="why">
+  <div class="wrap why-grid">
+    <div class="reveal">
+      <span class="section-eyebrow">Por que eu</span>
+      <h2>Processo, não só criatividade.</h2>
+      <ul class="why-list">
+        <li>15+ anos em ambiente multinacional</li>
+        <li>Especialista em IA &amp; automação (RPA)</li>
+        <li>Formação em Sistemas de Informação + IA em andamento</li>
+        <li>Background em Six Sigma / DMAIC aplicado a processo</li>
+      </ul>
+    </div>
+    <div class="why-copy reveal">
+      <p>A maioria de quem produz UGC com IA vende criatividade solta: faz um vídeo, entrega, espera o próximo pedido. Eu vim de automação e análise de processo — minha pergunta não é "ficou bonito?", é "isso converteu mais que a versão anterior, e por quê?"</p>
+      <p>Cada ciclo de teste gera um aprendizado que alimenta o próximo. Não é sorte criativa, é método repetível — o mesmo raciocínio de quem já otimizou processo dentro de operação real, agora aplicado ao criativo que sustenta seu anúncio.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-footer">
+  <div class="wrap" style="padding:74px 0 0;">
+    <h2>Vamos testar o próximo criativo do seu produto?</h2>
+    <p>Me conta qual produto você quer testar primeiro — eu já volto com uma hipótese de criativo.</p>
+    <a class="btn-primary" id="contato" href="https://www.linkedin.com/in/brunoqdf" target="_blank" rel="noopener">Falar com Bruno no LinkedIn</a>
+  </div>
+  <div class="wrap">
+    <footer>
+      <span>UGC Test Lab — testes de criativo com IA</span>
+      <a href="https://www.linkedin.com/in/brunoqdf" target="_blank" rel="noopener">linkedin.com/in/brunoqdf</a>
+    </footer>
+  </div>
+</section>
+
+<script>
+  // Subtle scroll-reveal, respects reduced motion via CSS transition removal above
+  const items = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  items.forEach(i => obs.observe(i));
+</script>
+
+</body>
+</html>
