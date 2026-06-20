@@ -56,8 +56,7 @@
     z-index:-1;
   }
 
-  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
-  @media (max-width:480px){ .wrap{ padding:0 16px; } }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 clamp(20px, 6vw, 32px); }
 
   h1,h2,h3{ font-family:'Space Grotesk', sans-serif; margin:0; line-height:1.1; }
   .mono{ font-family:'IBM Plex Mono', monospace; }
