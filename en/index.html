@@ -103,7 +103,8 @@
   @media (max-width:760px){ .nav-links{ display:none; } }
 
   /* ---------- HERO ---------- */
-  .hero{ padding:76px 0 64px; }
+  .hero{ padding-top:76px; padding-bottom:64px; }
+  @media (max-width:760px){ .hero{ padding-top:36px; padding-bottom:44px; } }
   .eyebrow{
     display:inline-flex; align-items:center; gap:8px;
     font-family:'IBM Plex Mono', monospace;
@@ -289,6 +290,81 @@
   }
   .ai-note::before{ content:"ℹ"; color:var(--accent); flex-shrink:0; font-size:0.9rem; }
 
+  /* ---------- ENTRANCE ANIMATIONS ---------- */
+  @keyframes wordRise{
+    from{ opacity:0; transform:translateY(26px) skewX(-1deg); }
+    to  { opacity:1; transform:none; }
+  }
+  @keyframes slideFromLeft{
+    from{ opacity:0; transform:translateX(-22px); }
+    to  { opacity:1; transform:none; }
+  }
+  @keyframes riseCard{
+    from{ opacity:0; transform:translateY(44px) scale(.96); }
+    to  { opacity:1; transform:none; }
+  }
+  @keyframes softFade{
+    from{ opacity:0; transform:translateY(14px); }
+    to  { opacity:1; transform:none; }
+  }
+  .hero-word{
+    display:inline-block; opacity:0;
+    animation:wordRise .65s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .anim-eyebrow{ opacity:0; animation:slideFromLeft .5s ease forwards; }
+  .anim-lead   { opacity:0; animation:softFade .55s ease forwards; }
+  .anim-actions{ opacity:0; animation:softFade .55s ease forwards; }
+  .anim-card   { opacity:0; animation:riseCard .75s cubic-bezier(.22,1,.36,1) forwards; }
+
+  /* ---------- HYPOTHESIS SHOWCASE ---------- */
+  .hyp-showcase{ position:relative; overflow:hidden; background:var(--ink); }
+  .hyp-inner{
+    min-height:100svh; display:flex;
+    flex-direction:column; align-items:center; justify-content:center;
+    padding:60px 32px; text-align:center; position:relative;
+  }
+  .hyp-slide{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:60px 32px;
+    opacity:0; transform:scale(.94) translateY(12px);
+    transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1);
+    pointer-events:none;
+  }
+  .hyp-slide.active{ opacity:1; transform:none; pointer-events:auto; }
+  .hyp-giant{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(8rem,24vw,18rem);
+    font-weight:700; color:var(--accent);
+    line-height:.85; letter-spacing:-.04em; user-select:none;
+  }
+  .hyp-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(1.6rem,4vw,2.8rem);
+    font-weight:600; color:#fff; margin:16px 0 12px;
+  }
+  .hyp-desc{ font-size:1rem; color:rgba(255,255,255,.52); max-width:36ch; line-height:1.7; }
+  .hyp-dots{
+    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+    display:flex; gap:12px; align-items:center;
+  }
+  .hyp-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,255,255,.22); cursor:pointer;
+    transition:background .35s,transform .35s;
+  }
+  .hyp-dot.on{ background:var(--accent); transform:scale(1.3); }
+  .hyp-bar{ position:absolute; bottom:0; left:0; height:3px; background:var(--accent); width:0; transition:width .08s linear; }
+  .hyp-skip{
+    position:absolute; bottom:36px; right:32px;
+    font-family:'IBM Plex Mono',monospace; font-size:.7rem;
+    letter-spacing:.1em; text-transform:uppercase;
+    color:rgba(255,255,255,.28); text-decoration:none; transition:color .2s;
+  }
+  .hyp-skip:hover{ color:rgba(255,255,255,.7); }
+
+  /* ---------- 3D CARD TILT ---------- */
+  .test-card{ transition:transform .4s ease, box-shadow .4s ease; will-change:transform; }
+
   /* ---------- REVEAL ---------- */
   .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
   .reveal.in{ opacity:1; transform:translateY(0); }
@@ -315,7 +391,7 @@
 <section class="hero wrap">
   <div class="hero-grid">
     <div>
-      <span class="eyebrow">For brands with physical products running ads</span>
+      <span class="eyebrow">For brands selling physical products online</span>
       <h1>I produce <em>3 ad creatives</em> for your product and find out which one converts best — before you spend more on media.</h1>
       <p class="lead">Save production time and stop guessing which creative works. Three different hypotheses, tested with real data, not assumptions.</p>
       <div class="hero-actions">
@@ -338,6 +414,33 @@
         <span class="tc-tag mono">BEAUTY · EN</span>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="hyp-showcase" aria-label="The three creative hypotheses">
+  <div class="hyp-inner" id="hypInner">
+    <div class="hyp-slide active" data-idx="0">
+      <div class="hyp-giant">A</div>
+      <h2 class="hyp-name">Time saving</h2>
+      <p class="hyp-desc">The product solves something fast, without effort. Converts best when the pain is a lack of convenience in everyday life.</p>
+    </div>
+    <div class="hyp-slide" data-idx="1">
+      <div class="hyp-giant">B</div>
+      <h2 class="hyp-name">Social proof</h2>
+      <p class="hyp-desc">"I tried it and it worked." The tone of a real, genuine recommendation. Works when there's distrust in the product or category.</p>
+    </div>
+    <div class="hyp-slide" data-idx="2">
+      <div class="hyp-giant">C</div>
+      <h2 class="hyp-name">Customer pain</h2>
+      <p class="hyp-desc">Opens with the pain, closes with the solution. Converts when the customer knows the problem but doesn't yet know the product.</p>
+    </div>
+    <div class="hyp-dots">
+      <span class="hyp-dot on" data-to="0"></span>
+      <span class="hyp-dot" data-to="1"></span>
+      <span class="hyp-dot" data-to="2"></span>
+    </div>
+    <div class="hyp-bar" id="hypBar"></div>
+    <a class="hyp-skip" href="#how-it-works">skip →</a>
   </div>
 </section>
 
@@ -592,11 +695,112 @@
 </section>
 
 <script>
-  const items = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-  }, { threshold: 0.15 });
-  items.forEach(i => obs.observe(i));
+const reducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ── SCROLL REVEAL ── */
+const revItems = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target); } });
+}, { threshold:0.12 });
+revItems.forEach(i => revObs.observe(i));
+
+/* ── CINEMATIC ENTRANCE ── */
+if(!reducedMotion){
+  (function(){
+    const ew = document.querySelector('.hero .eyebrow');
+    if(ew){ ew.classList.add('anim-eyebrow'); ew.style.animationDelay='.15s'; }
+
+    const h1 = document.querySelector('.hero h1');
+    if(h1){
+      let delay = .35;
+      const walk = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      let n;
+      while(n = walk.nextNode()) nodes.push(n);
+      nodes.forEach(tn => {
+        const parts = tn.textContent.split(/(\s+)/);
+        const frag = document.createDocumentFragment();
+        parts.forEach(p => {
+          if(p.trim()){
+            const s = document.createElement('span');
+            s.className = 'hero-word';
+            s.style.animationDelay = delay + 's';
+            s.textContent = p;
+            frag.appendChild(s);
+            delay += .07;
+          } else { frag.appendChild(document.createTextNode(p)); }
+        });
+        tn.replaceWith(frag);
+      });
+    }
+
+    const lead    = document.querySelector('.hero .lead');
+    const actions = document.querySelector('.hero-actions');
+    const card    = document.querySelector('.hero .test-card');
+    if(lead)   { lead.classList.add('anim-lead');       lead.style.animationDelay    = '.95s'; }
+    if(actions){ actions.classList.add('anim-actions'); actions.style.animationDelay = '1.1s'; }
+    if(card)   { card.classList.add('anim-card');       card.style.animationDelay    = '.45s'; }
+  })();
+}
+
+/* ── HYPOTHESIS SHOWCASE ── */
+(function(){
+  const slides = document.querySelectorAll('.hyp-slide');
+  const dots   = document.querySelectorAll('.hyp-dot');
+  const bar    = document.getElementById('hypBar');
+  if(!slides.length) return;
+
+  let current = 0;
+  let timer;
+  const DURATION = 2800;
+
+  function goTo(idx){
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('on');
+    current = idx % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('on');
+    if(bar) bar.style.width = '0%';
+  }
+
+  function startCycle(){
+    clearInterval(timer);
+    let pct = 0;
+    const step = 100 / (DURATION / 50);
+    timer = setInterval(() => {
+      pct += step;
+      if(bar) bar.style.width = Math.min(pct,100) + '%';
+      if(pct >= 100){ goTo(current + 1); pct = 0; }
+    }, 50);
+  }
+
+  dots.forEach(d => {
+    d.addEventListener('click', () => { goTo(parseInt(d.dataset.to)); startCycle(); });
+  });
+
+  const showcase = document.querySelector('.hyp-showcase');
+  const visObs = new IntersectionObserver(([e]) => {
+    if(e.isIntersecting){ startCycle(); visObs.disconnect(); }
+  }, { threshold:.3 });
+  if(showcase) visObs.observe(showcase);
+})();
+
+/* ── 3D CARD TILT (desktop only) ── */
+if(!window.matchMedia('(hover:none)').matches && !reducedMotion){
+  document.querySelectorAll('.test-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - .5;
+      const y = (e.clientY - r.top)  / r.height - .5;
+      card.style.transform  = `perspective(700px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateZ(8px)`;
+      card.style.transition = 'transform .08s ease';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform  = '';
+      card.style.transition = 'transform .5s ease';
+    });
+  });
+}
 </script>
 
 </body>
