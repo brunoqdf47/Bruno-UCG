@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UGC Test Lab — AI creative testing for e-commerce</title>
-<meta name="description" content="I test AI-generated UGC creative variations for your product, measure what converts best, and hand you the report. No hiring a creator, no week-long production.">
+<title>UGC Test Lab — AI-powered ad creatives for e-commerce brands</title>
+<meta name="description" content="I produce 3 AI-generated UGC ad creatives for your product, test which hypothesis converts best, and deliver the findings. No hiring a creator. No week-long production.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,12 +41,10 @@
       linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0 / 100% 42px,
       linear-gradient(90deg, var(--paper-line) 1px, transparent 1px) 0 0 / 42px 100%,
       var(--paper);
-    background-blend-mode:normal;
     color:var(--ink);
     font-family:'IBM Plex Sans', sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  /* Soften the grid so it reads as texture, not a spreadsheet */
   body::before{
     content:"";
     position:fixed; inset:0;
@@ -57,10 +55,10 @@
   }
 
   .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  @media (max-width:480px){ .wrap{ padding:0 16px; } }
 
   h1,h2,h3{ font-family:'Space Grotesk', sans-serif; margin:0; line-height:1.1; }
   .mono{ font-family:'IBM Plex Mono', monospace; }
-
   a{ color:inherit; }
 
   :focus-visible{
@@ -83,7 +81,6 @@
   .brand{
     font-family:'Space Grotesk', sans-serif;
     font-weight:700; font-size:1.05rem;
-    letter-spacing:0.01em;
     display:flex; align-items:center; gap:8px;
   }
   .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; }
@@ -98,6 +95,12 @@
     padding:9px 16px; border-radius:8px; text-decoration:none;
     font-size:0.88rem; font-weight:500;
   }
+  .lang-switch{
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem;
+    color:var(--muted); text-decoration:none; padding:6px 10px;
+    border:1px solid var(--paper-line); border-radius:6px;
+  }
+  .lang-switch:hover{ border-color:var(--ink); color:var(--ink); }
   @media (max-width:760px){ .nav-links{ display:none; } }
 
   /* ---------- HERO ---------- */
@@ -133,7 +136,7 @@
   }
   .btn-ghost:hover{ border-color:var(--ink); }
 
-  /* ---------- TEST CARD (signature element) ---------- */
+  /* ---------- TEST CARD ---------- */
   .test-card{
     background:var(--surface);
     border:1px solid var(--paper-line);
@@ -141,6 +144,7 @@
     overflow:hidden;
     box-shadow:0 1px 0 rgba(21,32,43,0.04);
   }
+  .test-card.featured{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,90,31,0.1); }
   .test-card .tc-head{
     display:flex; align-items:center; justify-content:space-between;
     padding:14px 16px; border-bottom:1px solid var(--paper-line);
@@ -152,30 +156,13 @@
   }
   .tc-status.winner{ background:var(--winner-bg); color:var(--winner); }
   .tc-status.pending{ background:var(--pending-bg); color:var(--pending-ink); }
-
   .tc-media{
-    aspect-ratio:9/14;
-    max-height:340px;
-    background:
-      repeating-linear-gradient(135deg, #DDE3E4 0 2px, #E7ECEE 2px 14px);
+    aspect-ratio:9/16;
+    background: repeating-linear-gradient(135deg, #DDE3E4 0 2px, #E7ECEE 2px 14px);
     display:flex; align-items:center; justify-content:center;
     position:relative;
   }
-  .tc-media .play{
-    width:52px; height:52px; border-radius:50%;
-    background:rgba(21,32,43,0.78);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .tc-media .play svg{ width:18px; height:18px; fill:#fff; }
-  .tc-media .swap-note{
-    position:absolute; bottom:10px; left:10px; right:10px;
-    font-family:'IBM Plex Mono', monospace; font-size:0.65rem; color:var(--muted);
-    background:rgba(255,255,255,0.85); padding:5px 7px; border-radius:5px;
-  }
-  .tc-media iframe{
-    width:100%; height:100%; border:0; display:block;
-  }
-
+  .tc-media iframe{ width:100%; height:100%; border:0; display:block; }
   .tc-body{ padding:14px 16px 16px; }
   .tc-product{ font-weight:600; font-size:0.95rem; margin-bottom:4px; }
   .tc-hyp{ font-size:0.85rem; color:var(--muted); line-height:1.45; }
@@ -186,7 +173,7 @@
     padding:3px 8px; border-radius:5px;
   }
 
-  /* ---------- SECTION HEADERS ---------- */
+  /* ---------- SECTIONS ---------- */
   .section{ padding:74px 0; border-top:1px solid var(--paper-line); }
   .section-head{ max-width:620px; margin-bottom:48px; }
   .section-eyebrow{
@@ -231,22 +218,31 @@
   .angle span.desc{ font-size:0.85rem; color:var(--muted); }
 
   /* ---------- GALLERY ---------- */
-  .gallery-grid{
-    display:grid; grid-template-columns:repeat(4, 1fr); gap:22px;
-  }
+  .gallery-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; }
   @media (max-width:980px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:560px){ .gallery-grid{ grid-template-columns:1fr; } }
 
+  /* Primary (EN) gallery — 2 featured cards */
+  .en-grid{ grid-template-columns:repeat(2,1fr); max-width:560px; }
+  @media (max-width:560px){ .en-grid{ grid-template-columns:1fr; max-width:100%; } }
+
+  /* More samples (PT market) */
+  .more-grid{ grid-template-columns:repeat(4, 1fr); }
+  @media (max-width:980px){ .more-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .more-grid{ grid-template-columns:1fr; } }
+  .section-more{ background:rgba(255,255,255,0.4); }
+
   /* ---------- PACKAGES ---------- */
-  .pkg-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:24px; align-items:stretch; }
-  @media (max-width:880px){ .pkg-grid{ grid-template-columns:1fr; } }
+  .pkg-grid{ display:grid; grid-template-columns:1fr 1.15fr 1fr; gap:24px; align-items:stretch; }
+  @media (max-width:980px){ .pkg-grid{ grid-template-columns:1fr; } }
+  .pkg.entry{ border:1px solid var(--paper-line); }
   .pkg{
     background:var(--surface); border:1px solid var(--paper-line); border-radius:var(--radius);
     padding:32px 28px; display:flex; flex-direction:column;
   }
   .pkg.flagship{ border:1.5px solid var(--ink); position:relative; }
   .pkg.flagship::before{
-    content:"RECOMENDADO"; position:absolute; top:-12px; left:28px;
+    content:"RECOMMENDED"; position:absolute; top:-12px; left:28px;
     background:var(--ink); color:#fff; font-family:'IBM Plex Mono', monospace;
     font-size:0.65rem; letter-spacing:0.06em; padding:5px 10px; border-radius:5px;
   }
@@ -273,9 +269,7 @@
   .why-copy p + p{ margin-top:16px; }
 
   /* ---------- CTA FOOTER ---------- */
-  .cta-footer{
-    background:var(--ink); color:#fff; border-top:none;
-  }
+  .cta-footer{ background:var(--ink); color:#fff; }
   .cta-footer h2{ color:#fff; font-size:clamp(1.6rem, 3.4vw, 2.3rem); max-width:560px; }
   .cta-footer p{ color:#AEB8BF; margin-top:16px; max-width:480px; line-height:1.6; }
   .cta-footer .btn-primary{ background:var(--accent); margin-top:28px; }
@@ -298,70 +292,69 @@
   <div class="wrap nav">
     <div class="brand-block">
       <div class="brand"><span class="dot"></span>UGC TEST LAB</div>
-      <span class="brand-sub">creative testing for anyone selling a physical product online</span>
+      <span class="brand-sub">AI-powered ad creatives for e-commerce brands</span>
     </div>
     <nav class="nav-links">
-      <a href="#como-funciona">How it works</a>
-      <a href="#amostras">Samples</a>
-      <a href="#pacotes">Packages</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#samples">Samples</a>
+      <a href="#pricing">Pricing</a>
+      <a href="../">🇧🇷 PT</a>
     </nav>
-    <a class="nav-cta" href="#contato">Test my next ad</a>
-    <a href="../index.html" style="margin-left:14px; font-size:0.82rem; color:var(--muted); text-decoration:none;">PT 🇧🇷</a>
+    <a class="nav-cta" href="#contact">Get my creatives</a>
   </div>
 </header>
 
 <section class="hero wrap">
   <div class="hero-grid">
     <div>
-      <span class="eyebrow">For brands already running ads</span>
+      <span class="eyebrow">For brands with physical products running ads</span>
       <h1>I produce <em>3 ad creatives</em> for your product and find out which one converts best — before you spend more on media.</h1>
-      <p class="lead">You save production time and reduce the risk of betting on the wrong creative. Three different angles, tested with real data, not guesswork.</p>
+      <p class="lead">Save production time and stop guessing which creative works. Three different hypotheses, tested with real data, not assumptions.</p>
       <div class="hero-actions">
-        <a class="btn-primary" href="#contato">Get 3 hypotheses for my product</a>
-        <a class="btn-ghost" href="#como-funciona">How it works</a>
+        <a class="btn-primary" href="#contact">Get 3 creatives for my product</a>
+        <a class="btn-ghost" href="#pricing">or start with 1 video — $20</a>
       </div>
     </div>
 
-    <div class="test-card reveal">
+    <div class="test-card featured reveal">
       <div class="tc-head">
-        <span class="tc-id mono">TEST Nº 014</span>
-        <span class="tc-status winner mono">Winning hypothesis</span>
+        <span class="tc-id mono">EN · 001</span>
+        <span class="tc-status winner mono">⭐ Top performer</span>
       </div>
       <div class="tc-media">
-        <!-- Replace VIDEO_ID with the YouTube ID of the kitchen organizer video, uploaded as "Unlisted" -->
-        <iframe src="https://www.youtube.com/embed/wzOT51VBgxc" title="Multi-function kitchen organizer" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/aacs7-rt-Oo" title="Enigma Body Splash" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
       </div>
       <div class="tc-body">
-        <div class="tc-product">Multi-function kitchen organizer</div>
-        <div class="tc-hyp">Hypothesis tested: casual social proof ("found this and it solved it") beats the space-saving angle.</div>
-        <span class="tc-tag mono">HOME &amp; ORGANIZATION</span>
+        <div class="tc-product">Enigma Body Splash</div>
+        <div class="tc-hyp">Hypothesis: desire and exclusivity outperform ingredient lists in purchase decisions.</div>
+        <span class="tc-tag mono">BEAUTY · EN</span>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="como-funciona">
+<section class="section" id="how-it-works">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">How it works</span>
-      <h2>Three steps, one weekly cycle.</h2>
-      <p>This isn't loose video production. It's a process with a start, a metric, and a decision at the end — the same reasoning I've applied for years optimizing process and automation, just pointed at ad creative.</p>
+      <h2>Three steps. One week. One decision.</h2>
+      <p>This is not loose video production. It's a process with a start, a metric, and a decision at the end — the same thinking I've applied for years optimizing operations and automation, now applied to the creative that drives your ad.</p>
     </div>
     <div class="steps">
       <div class="step reveal">
         <span class="num mono">01</span>
         <h3>Quick diagnosis</h3>
-        <p>I analyze your product, your audience, and the creative you're already running today — what's likely working and where you're losing conversions.</p>
+        <p>I analyze your product, your audience, and the creative you're already running — what's likely working and where the drop-off is.</p>
       </div>
       <div class="step reveal">
         <span class="num mono">02</span>
         <h3>Three video hypotheses</h3>
-        <p>I produce three AI UGC variations testing different angles: time savings, convenience, social proof — or whichever fit your product best.</p>
+        <p>I produce three UGC variations testing different angles: time-saving, social proof, pain point — or whatever makes most sense for your product.</p>
       </div>
       <div class="step reveal">
         <span class="num mono">03</span>
         <h3>Report and next cycle</h3>
-        <p>You run the three versions, I track the numbers, and the next cycle starts already optimized from what converted best — not from what "looks nice."</p>
+        <p>You run all three, I track the numbers, and the next cycle is already optimized based on what converted — not what looked good.</p>
       </div>
     </div>
 
@@ -370,90 +363,133 @@
       <div class="angle-row">
         <div class="angle reveal">
           <span class="letter mono">A</span>
-          <strong>Time savings</strong>
-          <span class="desc">the product solves something fast, no effort.</span>
+          <strong>Time saving</strong>
+          <span class="desc">The product solves something fast, without effort.</span>
         </div>
         <div class="angle reveal">
           <span class="letter mono">B</span>
           <strong>Social proof</strong>
-          <span class="desc">"I tried it and it worked" — a real-recommendation tone.</span>
+          <span class="desc">"I tried it and it worked" — tone of a real recommendation.</span>
         </div>
         <div class="angle reveal">
           <span class="letter mono">C</span>
           <strong>Customer pain</strong>
-          <span class="desc">starts from the problem the product solves.</span>
+          <span class="desc">Leads with the problem the product actually solves.</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="amostras">
+<section class="section" id="samples">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="section-eyebrow">Test samples</span>
-      <h2>A few tests already produced.</h2>
-      <p>Each card below is a real test: one product, one creative hypothesis, and the video that came out of it. Voiceovers are currently in Portuguese — English versions coming soon.</p>
+      <span class="section-eyebrow">English samples</span>
+      <h2>Created for English-speaking markets.</h2>
+      <p>Ready-to-run UGC creatives for US and European audiences — no foreign creator, no production delays, no language barrier.</p>
     </div>
-    <div class="gallery-grid">
+    <div class="gallery-grid en-grid">
+
+      <div class="test-card featured reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">EN · 001</span>
+          <span class="tc-status winner mono">⭐ Top performer</span>
+        </div>
+        <div class="tc-media">
+          <iframe src="https://www.youtube.com/embed/aacs7-rt-Oo" title="Enigma Body Splash" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Enigma Body Splash</div>
+          <div class="tc-hyp">Hypothesis: desire and exclusivity outperform ingredient lists in purchase decisions.</div>
+          <span class="tc-tag mono">BEAUTY · EN</span>
+        </div>
+      </div>
 
       <div class="test-card reveal">
         <div class="tc-head">
-          <span class="tc-id mono">Nº 011</span>
-          <span class="tc-status pending mono">Testing</span>
+          <span class="tc-id mono">EN · 002</span>
+          <span class="tc-status pending mono">Delivered</span>
+        </div>
+        <div class="tc-media">
+          <iframe src="https://www.youtube.com/embed/hIKR-DNA5Wg" title="Fashion Bag" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Fashion Bag</div>
+          <div class="tc-hyp">Hypothesis: style aspiration outperforms technical product description.</div>
+          <span class="tc-tag mono">FASHION · EN</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section-more" id="more-samples">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">More samples — Brazilian market</span>
+      <h2>Additional portfolio from BR e-commerce.</h2>
+      <p>Same method, same process — applied across beauty, fitness, pet, and home categories in the Brazilian market.</p>
+    </div>
+    <div class="gallery-grid more-grid">
+
+      <div class="test-card reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">BR · 011</span>
+          <span class="tc-status pending mono">Delivered</span>
         </div>
         <div class="tc-media">
           <iframe src="https://www.youtube.com/embed/xAf437iFLqs" title="Whey Pro Max Titanium" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="tc-body">
           <div class="tc-product">Whey Pro Max Titanium</div>
-          <div class="tc-hyp">Objection targeted: taste and mixability, not price.</div>
-          <span class="tc-tag mono">SUPPLEMENT</span>
+          <div class="tc-hyp">Objection addressed: taste and dissolution, not price.</div>
+          <span class="tc-tag mono">SUPPLEMENTS · PT</span>
         </div>
       </div>
 
       <div class="test-card reveal">
         <div class="tc-head">
-          <span class="tc-id mono">Nº 012</span>
-          <span class="tc-status pending mono">Testing</span>
+          <span class="tc-id mono">BR · 012</span>
+          <span class="tc-status pending mono">Delivered</span>
         </div>
         <div class="tc-media">
           <iframe src="https://www.youtube.com/embed/9OXGs8uBUwI" title="Cat water fountain" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="tc-body">
-          <div class="tc-product">Cat water fountain</div>
-          <div class="tc-hyp">Hypothesis: the owner's real concern outperforms the product's aesthetic appeal.</div>
-          <span class="tc-tag mono">PET</span>
+          <div class="tc-product">Cat Water Fountain</div>
+          <div class="tc-hyp">Hypothesis: real owner concern outperforms aesthetic appeal.</div>
+          <span class="tc-tag mono">PET · PT</span>
         </div>
       </div>
 
       <div class="test-card reveal">
         <div class="tc-head">
-          <span class="tc-id mono">Nº 013</span>
-          <span class="tc-status pending mono">Testing</span>
+          <span class="tc-id mono">BR · 013</span>
+          <span class="tc-status pending mono">Delivered</span>
         </div>
         <div class="tc-media">
-          <iframe src="https://www.youtube.com/embed/st6mCzL2gF4" title="Muscle massage gun" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+          <iframe src="https://www.youtube.com/embed/st6mCzL2gF4" title="Massage gun" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="tc-body">
-          <div class="tc-product">Muscle massage gun</div>
-          <div class="tc-hyp">Hypothesis: real post-workout pain converts better than technical specs.</div>
-          <span class="tc-tag mono">FITNESS</span>
+          <div class="tc-product">Muscle Massage Gun</div>
+          <div class="tc-hyp">Hypothesis: real post-workout pain converts more than product specs.</div>
+          <span class="tc-tag mono">FITNESS · PT</span>
         </div>
       </div>
 
       <div class="test-card reveal">
         <div class="tc-head">
-          <span class="tc-id mono">Nº 014</span>
+          <span class="tc-id mono">BR · 014</span>
           <span class="tc-status winner mono">Winner</span>
         </div>
         <div class="tc-media">
           <iframe src="https://www.youtube.com/embed/8tgDz8_laC0" title="LED facial massager" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="tc-body">
-          <div class="tc-product">LED facial massager</div>
-          <div class="tc-hyp">Winning hypothesis: an informal comparison to a clinic visit beats the technical LED explanation.</div>
-          <span class="tc-tag mono">BEAUTY</span>
+          <div class="tc-product">LED Facial Massager</div>
+          <div class="tc-hyp">Winning hypothesis: casual clinic comparison beats technical LED explanation.</div>
+          <span class="tc-tag mono">BEAUTY · PT</span>
         </div>
       </div>
 
@@ -461,36 +497,51 @@
   </div>
 </section>
 
-<section class="section" id="pacotes">
+<section class="section" id="pricing">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="section-eyebrow">Packages</span>
-      <h2>You're not buying a video. You're buying a test cycle.</h2>
-      <p>The value is in testing fast and stopping the guesswork on which creative works — the video is just the test material.</p>
+      <span class="section-eyebrow">Pricing</span>
+      <h2>You're not buying a video. You're buying a creative that converts.</h2>
+      <p>Start with 1 video to check the quality. If you like it, move to the full test pack. If the numbers make sense, go recurring.</p>
     </div>
     <div class="pkg-grid">
+
+      <div class="pkg entry reveal">
+        <span class="pkg-name mono">FIRST VIDEO</span>
+        <h3>R$ 97</h3>
+        <ul>
+          <li>1 ad creative for your product</li>
+          <li>Hypothesis chosen based on your audience</li>
+          <li>Delivered in up to 3 business days</li>
+        </ul>
+        <span class="price-note">See the quality before committing to the full pack. No strings attached.</span>
+        <a class="btn-ghost" href="https://wa.me/5511910262067" target="_blank" rel="noopener">Start with 1 video</a>
+      </div>
+
       <div class="pkg flagship reveal">
         <span class="pkg-name mono">INITIAL TEST</span>
-        <h3>$59</h3>
+        <h3>R$ 297</h3>
         <ul>
-          <li>Quick diagnosis of your product and audience</li>
+          <li>Quick product and audience diagnosis</li>
           <li>3 video creatives, one per hypothesis (A, B, C)</li>
-          <li>Learning report on which one converted best</li>
+          <li>Learning report showing which one converted best</li>
         </ul>
-        <span class="price-note">One-time payment, no recurring commitment.</span>
-        <a class="btn-primary" href="#contato">Test my next ad</a>
+        <span class="price-note">One-time payment. No recurring commitment.</span>
+        <a class="btn-primary" href="#contact">Test my next ad</a>
       </div>
+
       <div class="pkg reveal">
-        <span class="pkg-name mono">CREATIVE SPRINT 7D</span>
-        <h3>Recurring cycle</h3>
+        <span class="pkg-name mono">RECURRING CYCLE</span>
+        <h3>Monthly</h3>
         <ul>
-          <li>For after the initial test, if the numbers make sense</li>
-          <li>A new 3-hypothesis cycle every week</li>
-          <li>Each cycle builds on what converted best in the last one</li>
+          <li>After the initial test, if the numbers make sense</li>
+          <li>New 3-hypothesis cycle every week</li>
+          <li>Each cycle builds on what converted in the previous one</li>
         </ul>
-        <span class="price-note">Monthly subscription — price agreed based on testing volume.</span>
-        <a class="btn-ghost" href="#contato">I want recurring testing</a>
+        <span class="price-note">Monthly subscription — price agreed based on volume. Cancel anytime.</span>
+        <a class="btn-ghost" href="#contact">Ask about recurring</a>
       </div>
+
     </div>
   </div>
 </section>
@@ -502,35 +553,35 @@
       <h2>Process, not just creativity.</h2>
       <ul class="why-list">
         <li>15+ years in multinational environments</li>
-        <li>AI &amp; automation (RPA) specialist</li>
-        <li>Information Systems degree + ongoing AI degree</li>
+        <li>AI &amp; automation specialist (RPA)</li>
+        <li>Degree in Information Systems + AI underway</li>
         <li>Six Sigma / DMAIC background applied to process</li>
+        <li>Fluent English + Spanish + Portuguese</li>
       </ul>
     </div>
     <div class="why-copy reveal">
-      <p>Most people producing AI UGC sell loose creativity: make a video, deliver, wait for the next request. I come from automation and process analysis — my question isn't "does it look nice?", it's "did this convert more than the previous version, and why?"</p>
-      <p>Every test cycle generates a learning that feeds the next one. It's not creative luck, it's a repeatable method — the same reasoning someone who's already optimized real operational processes brings, now applied to the creative behind your ad.</p>
+      <p>Most people producing AI UGC sell loose creativity: make a video, deliver it, wait for the next order. I come from automation and process analysis — my question isn't "does it look good?", it's "did this convert more than the previous version, and why?"</p>
+      <p>Each test cycle generates learning that feeds the next one. It's not creative luck — it's a repeatable method. The same reasoning that optimized real operational processes, now applied to the creative that sustains your ad spend.</p>
     </div>
   </div>
 </section>
 
 <section class="cta-footer">
   <div class="wrap" style="padding:74px 0 0;">
-    <h2>Ready to test your product's next creative?</h2>
+    <h2>Ready to test your next creative?</h2>
     <p>Tell me which product you want to test first — I'll come back with a creative hypothesis.</p>
-    <a class="btn-primary" id="contato" href="https://wa.me/5511910262067" target="_blank" rel="noopener">Get 3 hypotheses for my product</a>
+    <a class="btn-primary" id="contact" href="https://wa.me/5511910262067" target="_blank" rel="noopener">Get 3 creatives for my product</a>
     <p style="margin-top:14px; font-size:0.85rem;"><a href="mailto:bruno.queiroz.ia@gmail.com" style="color:#AEB8BF; text-decoration:underline;">prefer email? write here</a></p>
   </div>
   <div class="wrap">
     <footer>
-      <span>UGC Test Lab — AI-powered creative testing</span>
+      <span>UGC Test Lab — AI-powered ad creatives</span>
       <a href="https://wa.me/5511910262067" target="_blank" rel="noopener">WhatsApp</a>
     </footer>
   </div>
 </section>
 
 <script>
-  // Subtle scroll-reveal, respects reduced motion via CSS transition removal above
   const items = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
