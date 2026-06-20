@@ -57,6 +57,7 @@
   }
 
   .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  @media (max-width:480px){ .wrap{ padding:0 16px; } }
 
   h1,h2,h3{ font-family:'Space Grotesk', sans-serif; margin:0; line-height:1.1; }
   .mono{ font-family:'IBM Plex Mono', monospace; }
@@ -154,8 +155,7 @@
   .tc-status.pending{ background:var(--pending-bg); color:var(--pending-ink); }
 
   .tc-media{
-    aspect-ratio:9/14;
-    max-height:340px;
+    aspect-ratio:9/16;
     background:
       repeating-linear-gradient(135deg, #DDE3E4 0 2px, #E7ECEE 2px 14px);
     display:flex; align-items:center; justify-content:center;
@@ -237,9 +237,18 @@
   @media (max-width:980px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:560px){ .gallery-grid{ grid-template-columns:1fr; } }
 
+  /* ---------- INTERNATIONAL SECTION ---------- */
+  .section-intl{ background:rgba(255,255,255,0.5); }
+  .intl-grid{ grid-template-columns:repeat(2,1fr); max-width:560px; }
+  @media (max-width:560px){ .intl-grid{ grid-template-columns:1fr; max-width:100%; } }
+  .test-card.featured{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,90,31,0.1); }
+  .section-eyebrow.intl{ color:var(--accent-ink); }
+
   /* ---------- PACKAGES ---------- */
-  .pkg-grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:24px; align-items:stretch; }
-  @media (max-width:880px){ .pkg-grid{ grid-template-columns:1fr; } }
+  .pkg-grid{ display:grid; grid-template-columns:1fr 1.15fr 1fr; gap:24px; align-items:stretch; }
+  @media (max-width:980px){ .pkg-grid{ grid-template-columns:1fr; } }
+  .pkg.entry{ border:1px solid var(--paper-line); }
+  .pkg.entry .btn-ghost{ margin-top:auto; }
   .pkg{
     background:var(--surface); border:1px solid var(--paper-line); border-radius:var(--radius);
     padding:32px 28px; display:flex; flex-direction:column;
@@ -303,6 +312,7 @@
     <nav class="nav-links">
       <a href="#como-funciona">Como funciona</a>
       <a href="#amostras">Amostras</a>
+      <a href="#ingles">🌎 Inglês</a>
       <a href="#pacotes">Pacotes</a>
     </nav>
     <a class="nav-cta" href="#contato">Testar meu anúncio</a>
@@ -312,12 +322,12 @@
 <section class="hero wrap">
   <div class="hero-grid">
     <div>
-      <span class="eyebrow">Pra quem já investe em anúncio</span>
+      <span class="eyebrow">Pra marcas com produto físico e anúncio rodando</span>
       <h1>Eu produzo <em>3 criativos</em> de anúncio pro seu produto e descubro qual converte mais — antes de você gastar mais em mídia.</h1>
       <p class="lead">Você economiza tempo de produção e reduz o risco de investir em criativo errado. Três hipóteses diferentes, testadas com dados reais, não com achismo.</p>
       <div class="hero-actions">
         <a class="btn-primary" href="#contato">Receber 3 hipóteses pro meu produto</a>
-        <a class="btn-ghost" href="#como-funciona">Como funciona</a>
+        <a class="btn-ghost" href="#pacotes">ou comece com 1 vídeo — R$ 97</a>
       </div>
     </div>
 
@@ -386,6 +396,8 @@
     </div>
   </div>
 </section>
+
+<section class="section" id="amostras">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">Amostras de teste</span>
@@ -397,7 +409,7 @@
       <div class="test-card reveal">
         <div class="tc-head">
           <span class="tc-id mono">Nº 011</span>
-          <span class="tc-status pending mono">Em teste</span>
+          <span class="tc-status pending mono">Entregue</span>
         </div>
         <div class="tc-media">
           <!-- Troque VIDEO_ID_2 pelo ID do vídeo do whey, subido como "Não listado" no YouTube -->
@@ -413,7 +425,7 @@
       <div class="test-card reveal">
         <div class="tc-head">
           <span class="tc-id mono">Nº 012</span>
-          <span class="tc-status pending mono">Em teste</span>
+          <span class="tc-status pending mono">Entregue</span>
         </div>
         <div class="tc-media">
           <!-- Troque VIDEO_ID_3 pelo ID do vídeo do bebedouro, subido como "Não listado" no YouTube -->
@@ -429,7 +441,7 @@
       <div class="test-card reveal">
         <div class="tc-head">
           <span class="tc-id mono">Nº 013</span>
-          <span class="tc-status pending mono">Em teste</span>
+          <span class="tc-status pending mono">Entregue</span>
         </div>
         <div class="tc-media">
           <!-- Troque VIDEO_ID_4 pelo ID do vídeo da pistola de massagem, subido como "Não listado" no YouTube -->
@@ -462,14 +474,70 @@
   </div>
 </section>
 
+<section class="section section-intl" id="ingles">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow intl">🌎 Alcance internacional</span>
+      <h2>Também produzimos em inglês — venda na gringa.</h2>
+      <p>Criativos prontos para o mercado americano e europeu. Sem contratar criador de fora, sem barreira de idioma.</p>
+    </div>
+    <div class="gallery-grid intl-grid">
+
+      <div class="test-card featured reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">EN · 001</span>
+          <span class="tc-status winner mono">⭐ Destaque</span>
+        </div>
+        <div class="tc-media">
+          <iframe src="https://www.youtube.com/embed/aacs7-rt-Oo" title="Enigma Body Splash" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Enigma Body Splash</div>
+          <div class="tc-hyp">Hipótese: desejo e exclusividade convertem mais que lista de ingredientes.</div>
+          <span class="tc-tag mono">BELEZA · EN</span>
+        </div>
+      </div>
+
+      <div class="test-card reveal">
+        <div class="tc-head">
+          <span class="tc-id mono">EN · 002</span>
+          <span class="tc-status pending mono">Entregue</span>
+        </div>
+        <div class="tc-media">
+          <iframe src="https://www.youtube.com/embed/hIKR-DNA5Wg" title="Fashion Bag" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="tc-body">
+          <div class="tc-product">Fashion Bag</div>
+          <div class="tc-hyp">Hipótese: aspiração de estilo supera descrição técnica na decisão de compra.</div>
+          <span class="tc-tag mono">MODA · EN</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section class="section" id="pacotes">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="section-eyebrow">Pacotes</span>
-      <h2>Você não está comprando vídeo. Está comprando ciclo de teste.</h2>
-      <p>O valor está em testar rápido e parar de adivinhar qual criativo funciona — o vídeo é só o material do teste.</p>
+      <h2>Você não está comprando vídeo. Está comprando criativo que converte.</h2>
+      <p>Comece com 1 vídeo pra conhecer a qualidade. Se gostar, avança pro pacote de teste completo. Se os números fizerem sentido, vira ciclo recorrente.</p>
     </div>
     <div class="pkg-grid">
+
+      <div class="pkg entry reveal">
+        <span class="pkg-name mono">PRIMEIRO VÍDEO</span>
+        <h3>R$ 97</h3>
+        <ul>
+          <li>1 criativo de anúncio pro seu produto</li>
+          <li>Hipótese escolhida com base no seu público</li>
+          <li>Entregue em até 3 dias úteis</li>
+        </ul>
+        <span class="price-note">Pra conhecer a qualidade antes de fechar o pacote completo. Sem compromisso.</span>
+        <a class="btn-ghost" href="https://wa.me/5511910262067" target="_blank" rel="noopener">Começar com 1 vídeo</a>
+      </div>
+
       <div class="pkg flagship reveal">
         <span class="pkg-name mono">TESTE INICIAL</span>
         <h3>R$ 297</h3>
@@ -481,17 +549,19 @@
         <span class="price-note">Pagamento único, sem compromisso de recorrência.</span>
         <a class="btn-primary" href="#contato">Testar meu próximo anúncio</a>
       </div>
+
       <div class="pkg reveal">
-        <span class="pkg-name mono">CREATIVE SPRINT 7D</span>
-        <h3>Ciclo recorrente</h3>
+        <span class="pkg-name mono">CICLO RECORRENTE</span>
+        <h3>Mensal</h3>
         <ul>
           <li>Pra depois do teste inicial, se os números fizerem sentido</li>
           <li>Novo ciclo de 3 hipóteses toda semana</li>
           <li>Cada ciclo parte do que converteu mais no anterior</li>
         </ul>
-        <span class="price-note">Assinatura mensal — valor combinado conforme volume de teste.</span>
+        <span class="price-note">Valor combinado conforme volume. Cancela quando quiser.</span>
         <a class="btn-ghost" href="#contato">Quero recorrência depois do teste</a>
       </div>
+
     </div>
   </div>
 </section>
