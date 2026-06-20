@@ -296,6 +296,15 @@
   footer a{ color:#AEB8BF; text-decoration:none; }
   footer a:hover{ color:#fff; }
 
+  /* ---------- AI TRANSPARENCY NOTE ---------- */
+  .ai-note{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--muted);
+    border:1px solid var(--paper-line); background:var(--surface);
+    border-radius:8px; padding:12px 16px; margin-top:22px;
+    display:flex; align-items:flex-start; gap:10px; line-height:1.55;
+  }
+  .ai-note::before{ content:"ℹ"; color:var(--accent); flex-shrink:0; font-size:0.9rem; }
+
   /* ---------- REVEAL ---------- */
   .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
   .reveal.in{ opacity:1; transform:translateY(0); }
@@ -365,7 +374,8 @@
       <div class="step reveal">
         <span class="num mono">02</span>
         <h3>Três hipóteses em vídeo</h3>
-        <p>Produzo três variações de UGC com IA testando ângulos diferentes: economia, praticidade, prova social — ou os que fizerem mais sentido pro seu produto.</p>
+        <p>Produzo três variações de UGC testando ângulos diferentes: economia, praticidade, prova social — ou os que fizerem mais sentido pro seu produto.</p>
+        <p style="margin-top:10px;font-size:0.82rem;color:var(--muted);">Os vídeos são produzidos com IA — avatares e vozes digitais, sem ator presencial.</p>
       </div>
       <div class="step reveal">
         <span class="num mono">03</span>
@@ -471,6 +481,7 @@
       </div>
 
     </div>
+    <p class="ai-note">Todos os criativos acima são produzidos com inteligência artificial — avatares e vozes gerados digitalmente, sem necessidade de ator presencial. Por isso a entrega é rápida e o custo é menor que UGC tradicional com pessoa física.</p>
   </div>
 </section>
 
